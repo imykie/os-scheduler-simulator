@@ -2,24 +2,16 @@
 
 #include "data_structures/process.h"
 #include "data_structures/queue.h"
+#include "io/reader/process_file_reader.h"
 
 using namespace std;
 
 int main() {
-    Process p = Process(1, 1, 1, 1, 1);
-    cout << p.ToString() << endl;
+    vector<Process*> processes = ProcessFileReader::ReadFile("test.csv");
 
-    Queue<int> *q = new Queue<int>();
-    q->Enqueue(1);
-    q->Enqueue(2);
-    cout << q->Peek() << endl;
-    q->Dequeue();
-    q->Enqueue(3);
-    q->Enqueue(4);
-    cout << q->Length() << endl;
-    cout << q->Peek() << endl;
-    q->Dequeue();
-    cout << q->Length() << endl;
+    for (auto process : processes) {
+        cout << process->ToString() << endl;
+    }
 
     return 0;
 }

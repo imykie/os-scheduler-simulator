@@ -8,5 +8,5 @@ if [ -x "$filename" ]; then
 fi
 
 echo "compiling new executable"
-g++ -std=c++20 src/*.cpp src/data_structures/*.cpp -o $filename
+g++ -std=c++20 src/*.cpp src/data_structures/*.cpp src/io/*.cpp src/io/reader/*.cpp -o $filename
 echo "finished compilation!"
