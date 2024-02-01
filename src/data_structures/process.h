@@ -1,22 +1,22 @@
 #pragma once
 #include <string>
 
-class Process
-{
-private:
-    unsigned int process_id;   // ID of the process
-    unsigned int arrival_time; // Time when the process arrives
+class Process {
+   private:
+    unsigned int process_id;    // ID of the process
+    unsigned int arrival_time;  // Time when the process arrives
     unsigned int CPU_burst_time_1;
     unsigned int CPU_burst_time_2;
     unsigned int IO_burst_time;
-    int response_time;    // Beginning of first CPU burst time
-    int turn_around_time; // Time from arrival to termination
-    int waiting_time;     // Time spent in ready queue
-    int termination_time; // Time when process is terminated
+    int response_time;     // Beginning of first CPU burst time
+    int turn_around_time;  // Time from arrival to termination
+    int waiting_time;      // Time spent in ready queue
+    int termination_time;  // Time when process is terminated
 
-public:
-    Process(unsigned int process_id, unsigned int arrival_time, unsigned int CPU_burst_time_1, unsigned int CPU_burst_time_2, unsigned int IO_burst_time);
-    static Process CopyProcess(Process *process);
+   public:
+    Process(unsigned int process_id, unsigned int arrival_time, unsigned int CPU_burst_time_1,
+            unsigned int CPU_burst_time_2, unsigned int IO_burst_time);
+    static Process *Copy(Process *process);
     std::string ToString();
 
     // Getters

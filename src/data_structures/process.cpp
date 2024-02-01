@@ -1,10 +1,11 @@
 #include "process.h"
-#include <vector>
-#include <sstream>
-#include <iterator>
 
-Process::Process(unsigned int process_id, unsigned int arrival_time, unsigned int CPU_burst_time_1, unsigned int CPU_burst_time_2, unsigned int IO_burst_time)
-{
+#include <iterator>
+#include <sstream>
+#include <vector>
+
+Process::Process(unsigned int process_id, unsigned int arrival_time, unsigned int CPU_burst_time_1,
+                 unsigned int CPU_burst_time_2, unsigned int IO_burst_time) {
     this->process_id = process_id;
     this->arrival_time = arrival_time;
     this->CPU_burst_time_1 = CPU_burst_time_1;
@@ -16,18 +17,17 @@ Process::Process(unsigned int process_id, unsigned int arrival_time, unsigned in
     this->termination_time = -1;
 };
 
-Process Process::CopyProcess(Process *process)
-{
-    Process new_process = Process(process->process_id, process->arrival_time, process->CPU_burst_time_1, process->CPU_burst_time_2, process->IO_burst_time);
-    new_process.SetResponseTime(process->response_time);
-    new_process.SetTurnAroundTime(process->turn_around_time);
-    new_process.SetWaitTime(process->waiting_time);
-    new_process.SetTerminationTime(process->termination_time);
+Process *Process::Copy(Process *process) {
+    Process *new_process = new Process(process->process_id, process->arrival_time, process->CPU_burst_time_1,
+                                       process->CPU_burst_time_2, process->IO_burst_time);
+    new_process->SetResponseTime(process->response_time);
+    new_process->SetTurnAroundTime(process->turn_around_time);
+    new_process->SetWaitTime(process->waiting_time);
+    new_process->SetTerminationTime(process->termination_time);
     return new_process;
 };
 
-std::string Process::ToString()
-{
+std::string Process::ToString() {
     std::vector<std::string> out;
     out.push_back("[Process ID]: " + std::to_string(this->process_id));
     out.push_back("[Arrive Time]: " + std::to_string(this->arrival_time));
