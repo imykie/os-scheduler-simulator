@@ -19,12 +19,15 @@ std::vector<Process *> ProcessFileReader::ReadFile(std::string path) {
             if (csv_titles.size() == COLS_NUM) {
                 for (size_t i = 0; i < csv_titles.size(); ++i) {
                     if (csv_titles[i] != TITLES[i]) {
-                        throw std::invalid_argument("invalid column" + std::to_string(i + 1) + "title '" +
-                                                    csv_titles[i] + "' should be '" + TITLES[i] + "'");
+                        throw std::invalid_argument(
+                            "invalid column" + std::to_string(i + 1) +
+                            "title '" + csv_titles[i] + "' should be '" +
+                            TITLES[i] + "'");
                     };
                 }
             } else {
-                throw std::invalid_argument("invalid number columns in: " + path);
+                throw std::invalid_argument("invalid number columns in: " +
+                                            path);
             }
 
             validate_titles = true;
@@ -42,7 +45,8 @@ std::vector<Process *> ProcessFileReader::ReadFile(std::string path) {
             process->SetIOBurstTime(std::stoul(columns[4]));
         } else {
             file.close();
-            throw std::invalid_argument("input format invalid at line " + std::to_string(line_count) +
+            throw std::invalid_argument("input format invalid at line " +
+                                        std::to_string(line_count) +
                                         " of file on path: " + path);
         }
         processes.push_back(process);

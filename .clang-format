@@ -2,6 +2,6 @@ BasedOnStyle: Google
 IndentWidth: 4
 TabWidth: 4
 UseTab: Never
-ColumnLimit: 120
+ColumnLimit: 80
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: All

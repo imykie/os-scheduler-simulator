@@ -14,7 +14,7 @@ void TimeStampObserver::Update(float delta, std::string topic_name) {
     }
     msg << "[Observer ID]: " << GetID() << " ,";
     msg << "[Received]: " << delta;
-    std::cout << msg.str() <<std::endl;
+    std::cout << msg.str() << std::endl;
 }
 
 void TimeStampObserver::SetID(int id) { this->id = id; }

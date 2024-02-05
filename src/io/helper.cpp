@@ -1,6 +1,7 @@
 #include "helper.h"
 
-std::vector<std::string> Helper::Split(const std::string text, const std::string delim) {
+std::vector<std::string> Helper::Split(const std::string text,
+                                       const std::string delim) {
     std::vector<std::string> list;
 
     char *text_dup = (char *)text.c_str();  // duplicate string as char*
