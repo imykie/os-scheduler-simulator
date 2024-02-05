@@ -9,7 +9,7 @@
 #include "../helper.h"
 
 namespace ProcessFileReader {
-    // const used to seperate line inputs in txt file
+    // DELIM used to seperate line inputs in csv file
     const std::string DELIM = ",";
     const int COLS_NUM = 5;
     const std::string COL1 = "process_id";
