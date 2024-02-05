@@ -1,5 +1,11 @@
 #pragma once
+
+#include <iterator>
+#include <sstream>
 #include <string>
+#include <vector>
+
+#include "../io/helper.h"
 
 class Process {
    private:

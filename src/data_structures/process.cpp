@@ -1,9 +1,5 @@
 #include "process.h"
 
-#include <iterator>
-#include <sstream>
-#include <vector>
-
 Process::Process(unsigned int process_id, unsigned int arrival_time,
                  unsigned int CPU_burst_time_1, unsigned int CPU_burst_time_2,
                  unsigned int IO_burst_time) {
@@ -45,11 +41,7 @@ std::string Process::ToString() {
     out.push_back("[Termination Time]: " +
                   std::to_string(this->termination_time));
 
-    const char *const delim = "\n";
-    std::ostringstream imploded;
-    std::copy(out.begin(), out.end(),
-              std::ostream_iterator<std::string>(imploded, delim));
-    return imploded.str();
+    return Helper::Join(out, "\n");
 };
 
 // Getters
