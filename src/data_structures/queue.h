@@ -12,6 +12,7 @@ class Queue {
     void Enqueue(T value);
     T Dequeue();
     T Peek();
+    T Rear();
     void Clear();
 
    private:
@@ -108,6 +109,13 @@ template <typename T>
 T Queue<T>::Peek() {
     if (IsEmpty()) return DEFAULT_NODE_VALUE;
     return head->GetContent();
+}
+
+// Returns tail without remove from Queue
+template <typename T>
+T Queue<T>::Rear() {
+    if (IsEmpty()) return DEFAULT_NODE_VALUE;
+    return tail->GetContent();
 }
 
 template <typename T>
