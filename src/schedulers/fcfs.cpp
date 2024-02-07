@@ -19,8 +19,8 @@ void FCFS::Simulate() {
         if (!job_queue->IsEmpty() &&
             job_queue->Peek()->GetArrivalTime() <= timer->GetCurrentTime()) {
             ready_queue->Enqueue(job_queue->Dequeue());
-            std::cout << "[Process ID - " << ready_queue->Rear()->GetProcessID()
-                      << "] Moved from Job Queue to Ready Queue [NEW -> READY]"
+            std::cout << "[Process ID]: " << ready_queue->Rear()->GetProcessID()
+                      << ", Moved from Job Queue to Ready Queue [NEW -> READY]"
                       << std::endl;
         }
 
@@ -30,8 +30,8 @@ void FCFS::Simulate() {
             if (current_process->GetResponseTime() == -1) {
                 current_process->SetResponseTime(timer->GetCurrentTime());
             }
-            std::cout << "[Process ID - " << current_process->GetProcessID()
-                      << "] Moved from Ready Queue to Running State [READY -> "
+            std::cout << "[Process ID]: " << current_process->GetProcessID()
+                      << ", Moved from Ready Queue to Running State [READY -> "
                          "RUNNING]"
                       << std::endl;
         }
@@ -40,17 +40,17 @@ void FCFS::Simulate() {
         if (!waiting_queue->IsEmpty()) {
             waiting_queue->Peek()->SetIOBurstTime(
                 waiting_queue->Peek()->GetIOBurstTime() - 1);
-            std::cout << "[Process ID - "
+            std::cout << "[Process ID]: "
                       << waiting_queue->Peek()->GetProcessID()
-                      << "] Waited for IO resources for 1 second, [Remaining "
+                      << ", Waited for IO resources for 1 second, [Remaining "
                          "IOBurstTime]: "
                       << waiting_queue->Peek()->GetIOBurstTime() << std::endl;
 
             if (waiting_queue->Peek()->GetIOBurstTime() == 0) {
                 ready_queue->Enqueue(waiting_queue->Dequeue());
-                std::cout << "[Process ID - "
+                std::cout << "[Process ID]: "
                           << ready_queue->Rear()->GetProcessID()
-                          << "] IO waiting time finished, Moved from Waiting "
+                          << ", IO waiting time finished, Moved from Waiting "
                              "Queue to Ready Queue [WAITING -> READY]"
                           << std::endl;
             }
@@ -64,8 +64,8 @@ void FCFS::Simulate() {
                     current_process->SetCPUBurstTime2(
                         current_process->GetCPUBurstTime2() - 1);
                     std::cout
-                        << "[Process ID - " << current_process->GetProcessID()
-                        << "] Second CPUBurstTime was executed for 1 second, "
+                        << "[Process ID]: " << current_process->GetProcessID()
+                        << ", Second CPUBurstTime was executed for 1 second, "
                            "[Reamining CPUBurstTime 2]: "
                         << current_process->GetCPUBurstTime2() << std::endl;
                     if (current_process->GetCPUBurstTime2() == 0) {
@@ -81,28 +81,29 @@ void FCFS::Simulate() {
                              current_process->GetCPUBurstTime2() +
                              current_process->GetIOBurstTime()));
                         current_process = nullptr;
-                        std::cout << "[Process ID - "
+                        std::cout << "[Process ID]: "
                                   << terminated_queue->Rear()->GetProcessID()
-                                  << "] was terminated [RUNNING - TERMINATED]"
+                                  << ", was terminated [RUNNING - TERMINATED]"
                                   << std::endl;
                     }
                 }
             } else {
                 current_process->SetCPUBurstTime1(
                     current_process->GetCPUBurstTime1() - 1);
-                std::cout << "[Process ID - " << current_process->GetProcessID()
-                          << "] First CPUBurstTime was executed for 1 second, "
+                std::cout << "[Process ID]: " << current_process->GetProcessID()
+                          << ", First CPUBurstTime was executed for 1 second, "
                              "[Reamining CPUBurstTime 1]: "
                           << current_process->GetCPUBurstTime1() << std::endl;
                 if (current_process->GetCPUBurstTime1() == 0 &&
                     current_process->GetIOBurstTime() != 0) {
                     waiting_queue->Enqueue(current_process);
                     current_process = nullptr;
-                    std::cout << "[Process ID - "
-                              << waiting_queue->Rear()->GetProcessID()
-                              << "] Moved from Running State to Waiting Queue to "
-                                 "execute IO burst time [RUNNING -> WAITING]"
-                              << std::endl;
+                    std::cout
+                        << "[Process ID]: "
+                        << waiting_queue->Rear()->GetProcessID()
+                        << ", Moved from Running State to Waiting Queue to "
+                           "execute IO burst time [RUNNING -> WAITING]"
+                        << std::endl;
                 }
             }
         }

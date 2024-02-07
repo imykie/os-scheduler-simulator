@@ -10,9 +10,9 @@ TimeStampObserver::~TimeStampObserver() { UnsubscribeFromEvent(); }
 void TimeStampObserver::Update(float delta, std::string topic_name) {
     std::ostringstream msg;
     if (!topic_name.empty()) {
-        msg << "[Topic Name]: " << topic_name << " ,";
+        msg << "[Topic Name]: " << topic_name << ", ";
     }
-    msg << "[Observer ID]: " << GetID() << " ,";
+    msg << "[Observer ID]: " << GetID() << ", ";
     msg << "[Received]: " << delta;
     std::cout << msg.str() << std::endl;
 }
