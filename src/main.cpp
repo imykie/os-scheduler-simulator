@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "Timestamp/Timestamp.h"
-#include "Timestamp/Timestamp_observer.h"
+#include "timestamp/timestamp.h"
+#include "timestamp/timestamp_observer.h"
 #include "data_structures/process.h"
 #include "data_structures/queue.h"
 #include "io/reader/process_file_reader.h"

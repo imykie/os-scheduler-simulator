@@ -1,4 +1,4 @@
-#include "Timestamp_observer.h"
+#include "timestamp_observer.h"
 
 TimestampObserver::TimestampObserver(Timestamp *sender) {
     this->sender = sender;

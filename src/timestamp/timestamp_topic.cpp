@@ -1,4 +1,4 @@
-#include "Timestamp_topic.h"
+#include "timestamp_topic.h"
 
 void TimestampTopic::AddObserver(Observer<float>* observer) {
     observers.push_back(observer);

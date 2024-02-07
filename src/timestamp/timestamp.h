@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-#include "Timestamp_topic.h"
+#include "timestamp_topic.h"
 
 class Timestamp : public TimestampTopic {
    public:

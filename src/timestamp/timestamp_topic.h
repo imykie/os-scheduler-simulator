@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-#include "Timestamp_interface.h"
+#include "timestamp_interface.h"
 
 class TimestampTopic : public Topic<float> {
    public:

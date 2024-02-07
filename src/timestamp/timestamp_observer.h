@@ -3,8 +3,8 @@
 #include <sstream>
 #include <string>
 
-#include "Timestamp.h"
-#include "Timestamp_interface.h"
+#include "timestamp.h"
+#include "timestamp_interface.h"
 
 class TimestampObserver : public Observer<float> {
    public:

@@ -1,4 +1,4 @@
-#include "Timestamp.h"
+#include "timestamp.h"
 
 Timestamp::Timestamp() { time = 0; }
 Timestamp::Timestamp(std::string topic_name) {
