@@ -1,13 +1,13 @@
-#include "timestamp_observer.h"
+#include "Timestamp_observer.h"
 
-TimeStampObserver::TimeStampObserver(TimeStamp *sender) {
+TimestampObserver::TimestampObserver(Timestamp *sender) {
     this->sender = sender;
     SubscribeToEvent();
 }
 
-TimeStampObserver::~TimeStampObserver() { UnsubscribeFromEvent(); }
+TimestampObserver::~TimestampObserver() { UnsubscribeFromEvent(); }
 
-void TimeStampObserver::Update(float delta, std::string topic_name) {
+void TimestampObserver::Update(float delta, std::string topic_name) {
     std::ostringstream msg;
     if (!topic_name.empty()) {
         msg << "[Topic Name]: " << topic_name << ", ";
@@ -17,17 +17,17 @@ void TimeStampObserver::Update(float delta, std::string topic_name) {
     std::cout << msg.str() << std::endl;
 }
 
-void TimeStampObserver::SetID(int id) { this->id = id; }
+void TimestampObserver::SetID(int id) { this->id = id; }
 
-int TimeStampObserver::GetID() { return id; }
+int TimestampObserver::GetID() { return id; }
 
-void TimeStampObserver::SubscribeToEvent() {
+void TimestampObserver::SubscribeToEvent() {
     if (this->sender != nullptr) {
         sender->AddObserver(this);
     }
 }
 
-void TimeStampObserver::UnsubscribeFromEvent() {
+void TimestampObserver::UnsubscribeFromEvent() {
     if (this->sender != nullptr) {
         sender->RemoveObserver(this);
     }

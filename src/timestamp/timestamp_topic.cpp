@@ -1,11 +1,11 @@
-#include "timestamp_topic.h"
+#include "Timestamp_topic.h"
 
-void TimeStampTopic::AddObserver(Observer<float>* observer) {
+void TimestampTopic::AddObserver(Observer<float>* observer) {
     observers.push_back(observer);
     observer->SetID(observers.size());
 }
 
-void TimeStampTopic::RemoveObserver(Observer<float>* observer) {
+void TimestampTopic::RemoveObserver(Observer<float>* observer) {
     for (int i = 0; i < observers.size(); i++) {
         if (observers[i] == observer) {
             observers.erase(observers.begin() + i);
@@ -14,13 +14,13 @@ void TimeStampTopic::RemoveObserver(Observer<float>* observer) {
     }
 }
 
-int TimeStampTopic::GetObserversSize() { return observers.size(); }
+int TimestampTopic::GetObserversSize() { return observers.size(); }
 
-void TimeStampTopic::SetName(std::string name) { this->name = name; }
+void TimestampTopic::SetName(std::string name) { this->name = name; }
 
-std::string TimeStampTopic::GetName() { return name; }
+std::string TimestampTopic::GetName() { return name; }
 
-void TimeStampTopic::NotifyObservers() {
+void TimestampTopic::NotifyObservers() {
     float msg = GetMessage();
 
     for (int i = 0; i < observers.size(); i++) {

@@ -3,20 +3,20 @@
 #include <sstream>
 #include <string>
 
-#include "timestamp.h"
-#include "timestamp_interface.h"
+#include "Timestamp.h"
+#include "Timestamp_interface.h"
 
-class TimeStampObserver : public Observer<float> {
+class TimestampObserver : public Observer<float> {
    public:
-    TimeStampObserver(TimeStamp* sender);
-    ~TimeStampObserver();
+    TimestampObserver(Timestamp* sender);
+    ~TimestampObserver();
     void Update(float delta, std::string topic_name) override;
     void SetID(int id) override;
     int GetID() override;
     void UnsubscribeFromEvent();
 
    protected:
-    TimeStamp* sender;
+    Timestamp* sender;
 
    private:
     void SubscribeToEvent();

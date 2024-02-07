@@ -2,14 +2,14 @@
 
 #include <iostream>
 
+#include "../Timestamp/Timestamp.h"
+#include "../Timestamp/Timestamp_observer.h"
 #include "../data_structures/process.h"
 #include "../data_structures/queue.h"
-#include "../timestamp/timestamp.h"
-#include "../timestamp/timestamp_observer.h"
 
-class FCFS : public TimeStampObserver {
+class FCFS : public TimestampObserver {
    public:
-    FCFS(TimeStamp *timer, Queue<Process *> *processes);
+    FCFS(Timestamp *timer, Queue<Process *> *processes);
     void Simulate();
     bool IsProcessing();
     Process *GetCurrentProcess();
@@ -19,7 +19,7 @@ class FCFS : public TimeStampObserver {
     Queue<Process *> *waiting_queue;
     Queue<Process *> *ready_queue;
     Queue<Process *> *terminated_queue;
-    TimeStamp *timer;
+    Timestamp *timer;
     Process *current_process;
     int process_count;
 

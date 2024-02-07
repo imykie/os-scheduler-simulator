@@ -1,12 +1,12 @@
 #pragma once
 #include <string>
 
-#include "timestamp_topic.h"
+#include "Timestamp_topic.h"
 
-class TimeStamp : public TimeStampTopic {
+class Timestamp : public TimestampTopic {
    public:
-    TimeStamp();
-    TimeStamp(std::string topic_name);
+    Timestamp();
+    Timestamp(std::string topic_name);
     void IncreaseTime(float delta);
     float GetCurrentTime();
     float GetMessage() override;

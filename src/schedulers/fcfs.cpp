@@ -1,7 +1,7 @@
 #include "fcfs.h"
 
-FCFS::FCFS(TimeStamp *timer, Queue<Process *> *processes)
-    : TimeStampObserver(timer) {
+FCFS::FCFS(Timestamp *timer, Queue<Process *> *processes)
+    : TimestampObserver(timer) {
     this->timer = timer;
     process_count = processes->Length();
     job_queue = processes->Copy();

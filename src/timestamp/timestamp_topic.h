@@ -2,9 +2,9 @@
 #include <string>
 #include <vector>
 
-#include "timestamp_interface.h"
+#include "Timestamp_interface.h"
 
-class TimeStampTopic : public Topic<float> {
+class TimestampTopic : public Topic<float> {
    public:
     void AddObserver(Observer<float>* observer) override;
     void RemoveObserver(Observer<float>* observer) override;
