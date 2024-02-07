@@ -11,48 +11,66 @@ FCFS::FCFS(Timestamp *timer, Queue<Process *> *processes)
     current_process = nullptr;
 }
 
+// clean up pointers in destructor
+FCFS::~FCFS() {
+    delete job_queue;
+    job_queue = nullptr;
+    delete ready_queue;
+    ready_queue = nullptr;
+    delete waiting_queue;
+    waiting_queue = nullptr;
+    delete terminated_queue;
+    terminated_queue = nullptr;
+    delete current_process;
+    current_process = nullptr;
+}
+
 void FCFS::Simulate() {
+    std::vector<std::string> out;
     while (terminated_queue->Length() < process_count) {
         // handle job queue
-        std::cout << "[Time]: " << timer->GetCurrentTime() << " - "
-                  << timer->GetCurrentTime() + 1 << std::endl;
+        const int current_time = static_cast<int>(current_time);
+        out.push_back("[Time]: " + std::to_string(current_time) + " - " +
+                      std::to_string(current_time + 1));
         if (!job_queue->IsEmpty() &&
-            job_queue->Peek()->GetArrivalTime() <= timer->GetCurrentTime()) {
+            job_queue->Peek()->GetArrivalTime() <= current_time) {
             ready_queue->Enqueue(job_queue->Dequeue());
-            std::cout << "[Process ID]: " << ready_queue->Rear()->GetProcessID()
-                      << ", Moved from Job Queue to Ready Queue [NEW -> READY]"
-                      << std::endl;
+            out.push_back(
+                "[Process ID]: " +
+                std::to_string(ready_queue->Rear()->GetProcessID()) +
+                ", Moved from Job Queue to Ready Queue [NEW -> READY]");
         }
 
         // handle ready queue
         if (!ready_queue->IsEmpty() && current_process == nullptr) {
             SetCurrentProcess(ready_queue->Dequeue());
             if (current_process->GetResponseTime() == -1) {
-                current_process->SetResponseTime(timer->GetCurrentTime());
+                current_process->SetResponseTime(current_time);
             }
-            std::cout << "[Process ID]: " << current_process->GetProcessID()
-                      << ", Moved from Ready Queue to Running State [READY -> "
-                         "RUNNING]"
-                      << std::endl;
+            out.push_back("[Process ID]: " +
+                          std::to_string(current_process->GetProcessID()) +
+                          ", Moved from Ready Queue to Running State [READY -> "
+                          "RUNNING]");
         }
 
         // handle waiting queue
         if (!waiting_queue->IsEmpty()) {
             waiting_queue->Peek()->SetIOBurstTime(
                 waiting_queue->Peek()->GetIOBurstTime() - 1);
-            std::cout << "[Process ID]: "
-                      << waiting_queue->Peek()->GetProcessID()
-                      << ", Waited for IO resources for 1 second, [Remaining "
-                         "IOBurstTime]: "
-                      << waiting_queue->Peek()->GetIOBurstTime() << std::endl;
+            out.push_back(
+                "[Process ID]: " +
+                std::to_string(waiting_queue->Peek()->GetProcessID()) +
+                ", Waited for IO resources for 1 second, [Remaining "
+                "IOBurstTime]: " +
+                std::to_string(waiting_queue->Peek()->GetIOBurstTime()));
 
             if (waiting_queue->Peek()->GetIOBurstTime() == 0) {
                 ready_queue->Enqueue(waiting_queue->Dequeue());
-                std::cout << "[Process ID]: "
-                          << ready_queue->Rear()->GetProcessID()
-                          << ", IO waiting time finished, Moved from Waiting "
-                             "Queue to Ready Queue [WAITING -> READY]"
-                          << std::endl;
+                out.push_back(
+                    "[Process ID]: " +
+                    std::to_string(ready_queue->Rear()->GetProcessID()) +
+                    ", IO waiting time finished, Moved from Waiting "
+                    "Queue to Ready Queue [WAITING -> READY]");
             }
         }
 
@@ -63,15 +81,15 @@ void FCFS::Simulate() {
                     current_process->GetCPUBurstTime2() != 0) {
                     current_process->SetCPUBurstTime2(
                         current_process->GetCPUBurstTime2() - 1);
-                    std::cout
-                        << "[Process ID]: " << current_process->GetProcessID()
-                        << ", Second CPUBurstTime was executed for 1 second, "
-                           "[Reamining CPUBurstTime 2]: "
-                        << current_process->GetCPUBurstTime2() << std::endl;
+                    out.push_back(
+                        "[Process ID]: " +
+                        std::to_string(current_process->GetProcessID()) +
+                        ", Second CPUBurstTime was executed for 1 second, "
+                        "[Remaining CPUBurstTime 2]:" +
+                        std::to_string(current_process->GetCPUBurstTime2()));
                     if (current_process->GetCPUBurstTime2() == 0) {
                         terminated_queue->Enqueue(current_process);
-                        current_process->SetTerminationTime(
-                            timer->GetCurrentTime() + 1);
+                        current_process->SetTerminationTime(current_time + 1);
                         current_process->SetTurnAroundTime(
                             current_process->GetTerminationTime() -
                             current_process->GetArrivalTime());
@@ -81,35 +99,37 @@ void FCFS::Simulate() {
                              current_process->GetCPUBurstTime2() +
                              current_process->GetIOBurstTime()));
                         current_process = nullptr;
-                        std::cout << "[Process ID]: "
-                                  << terminated_queue->Rear()->GetProcessID()
-                                  << ", was terminated [RUNNING - TERMINATED]"
-                                  << std::endl;
+                        out.push_back(
+                            "[Process ID]: " +
+                            std::to_string(
+                                terminated_queue->Rear()->GetProcessID()) +
+                            ", was terminated [RUNNING - TERMINATED]");
                     }
                 }
             } else {
                 current_process->SetCPUBurstTime1(
                     current_process->GetCPUBurstTime1() - 1);
-                std::cout << "[Process ID]: " << current_process->GetProcessID()
-                          << ", First CPUBurstTime was executed for 1 second, "
-                             "[Reamining CPUBurstTime 1]: "
-                          << current_process->GetCPUBurstTime1() << std::endl;
+                out.push_back(
+                    "[Process ID]: " +
+                    std::to_string(current_process->GetProcessID()) +
+                    ", First CPUBurstTime was executed for 1 second, "
+                    "[Remaining CPUBurstTime 1]: " +
+                    std::to_string(current_process->GetCPUBurstTime1()));
                 if (current_process->GetCPUBurstTime1() == 0 &&
                     current_process->GetIOBurstTime() != 0) {
                     waiting_queue->Enqueue(current_process);
                     current_process = nullptr;
-                    std::cout
-                        << "[Process ID]: "
-                        << waiting_queue->Rear()->GetProcessID()
-                        << ", Moved from Running State to Waiting Queue to "
-                           "execute IO burst time [RUNNING -> WAITING]"
-                        << std::endl;
+                    out.push_back(
+                        "[Process ID]: " +
+                        std::to_string(waiting_queue->Rear()->GetProcessID()) +
+                        ", Moved from Running State to Waiting Queue to "
+                        "execute IO burst time [RUNNING -> WAITING]");
                 }
             }
         }
-
         timer->IncreaseTime(1);
     }
+    FileWriter::WriteToFile("FCFS.log", out);
 }
 
 bool FCFS::IsProcessing() { return terminated_queue->Length() < process_count; }

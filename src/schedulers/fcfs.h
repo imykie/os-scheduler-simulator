@@ -1,15 +1,19 @@
 #pragma once
 
 #include <iostream>
+#include <string>
+#include <vector>
 
-#include "../timestamp/timestamp.h"
-#include "../timestamp/timestamp_observer.h"
 #include "../data_structures/process.h"
 #include "../data_structures/queue.h"
+#include "../io/writer/file_writer.h"
+#include "../timestamp/timestamp.h"
+#include "../timestamp/timestamp_observer.h"
 
 class FCFS : public TimestampObserver {
    public:
     FCFS(Timestamp *timer, Queue<Process *> *processes);
+    ~FCFS();
     void Simulate();
     bool IsProcessing();
     Process *GetCurrentProcess();

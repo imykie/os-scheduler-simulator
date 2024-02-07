@@ -6,6 +6,7 @@ class Queue {
    public:
     Queue();
     Queue<T> *Copy();
+    ~Queue();
     bool IsEmpty();
     int Length();
     bool Contains(T value);
@@ -26,6 +27,14 @@ Queue<T>::Queue() {
     head = NULL_NODE;
     tail = NULL_NODE;
     size = 0;
+}
+
+template <typename T>
+Queue<T>::~Queue() {
+    delete head;
+    head = NULL_NODE;
+    delete tail;
+    tail = NULL_NODE;
 }
 
 template <typename T>
