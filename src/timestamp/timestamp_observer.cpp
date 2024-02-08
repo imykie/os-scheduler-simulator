@@ -5,11 +5,7 @@ TimestampObserver::TimestampObserver(Timestamp *sender) {
     SubscribeToEvent();
 }
 
-TimestampObserver::~TimestampObserver() {
-    UnsubscribeFromEvent();
-    delete sender;
-    sender = nullptr;
-}
+TimestampObserver::~TimestampObserver() { UnsubscribeFromEvent(); }
 
 void TimestampObserver::Update(float delta, std::string topic_name) {
     std::ostringstream msg;

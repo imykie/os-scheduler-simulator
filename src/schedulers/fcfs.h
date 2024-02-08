@@ -4,13 +4,10 @@
 #include <string>
 #include <vector>
 
-#include "../data_structures/process.h"
-#include "../data_structures/queue.h"
-#include "../io/writer/file_writer.h"
-#include "../timestamp/timestamp.h"
 #include "../timestamp/timestamp_observer.h"
+#include "scheduler.h"
 
-class FCFS : public TimestampObserver {
+class FCFS : public Scheduler, TimestampObserver {
    public:
     FCFS(Timestamp *timer, Queue<Process *> *processes);
     ~FCFS();
@@ -19,13 +16,5 @@ class FCFS : public TimestampObserver {
     Process *GetCurrentProcess();
 
    private:
-    Queue<Process *> *job_queue;
-    Queue<Process *> *waiting_queue;
-    Queue<Process *> *ready_queue;
-    Queue<Process *> *terminated_queue;
-    Timestamp *timer;
-    Process *current_process;
-    int process_count;
-
     void SetCurrentProcess(Process *process);
 };

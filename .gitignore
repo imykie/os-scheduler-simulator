@@ -1,5 +1,15 @@
 .vscode
+
+# compiled code
 program
 .DS_STORE
+
+# sample test file
 test.csv
+
+# generated log files
 FCFS.log
+
+# compiler stuffs
+*.dSYM/
+program.dSYM/

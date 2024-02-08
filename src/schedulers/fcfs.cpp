@@ -29,7 +29,7 @@ void FCFS::Simulate() {
     std::vector<std::string> out;
     while (terminated_queue->Length() < process_count) {
         // handle job queue
-        const int current_time = static_cast<int>(current_time);
+        const int current_time = static_cast<int>(timer->GetCurrentTime());
         out.push_back("[Time]: " + std::to_string(current_time) + " - " +
                       std::to_string(current_time + 1));
         if (!job_queue->IsEmpty() &&

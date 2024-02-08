@@ -31,7 +31,7 @@ void FileWriter::WriteToFile(const std::string path,
     if (!file.is_open()) {
         throw std::invalid_argument("could not open/create file at: " + path);
     }
-    for (const std::string text : texts) {
+    for (const std::string &text : texts) {
         file << text << std::endl;
     }
     file.close();
