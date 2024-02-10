@@ -20,8 +20,7 @@ class Process {
     int termination_time;  // Time when process is terminated
 
    public:
-    Process(unsigned int process_id = 0, unsigned int arrival_time = 0,
-            unsigned int CPU_burst_time_1 = 0,
+    Process(unsigned int process_id = 0, unsigned int arrival_time = 0, unsigned int CPU_burst_time_1 = 0,
             unsigned int CPU_burst_time_2 = 0, unsigned int IO_burst_time = 0);
     static Process *Copy(Process *process);
     std::string ToString();

@@ -14,10 +14,9 @@ Queue<Process *> *convert_process_vector_to_queue(vector<Process *> processes) {
     Queue<Process *> *queue = new Queue<Process *>();
 
     for (size_t i = 0; i < processes.size(); ++i) {
-        Process *process = new Process(
-            processes[i]->GetProcessID(), processes[i]->GetArrivalTime(),
-            processes[i]->GetCPUBurstTime1(), processes[i]->GetCPUBurstTime2(),
-            processes[i]->GetIOBurstTime());
+        Process *process =
+            new Process(processes[i]->GetProcessID(), processes[i]->GetArrivalTime(), processes[i]->GetCPUBurstTime1(),
+                        processes[i]->GetCPUBurstTime2(), processes[i]->GetIOBurstTime());
         queue->Enqueue(process);
     }
 
@@ -30,8 +29,7 @@ int main() {
     Timestamp *timer2 = new Timestamp("RR");
 
     try {
-        Queue<Process *> *process_vector_to_queue =
-            convert_process_vector_to_queue(processes);
+        Queue<Process *> *process_vector_to_queue = convert_process_vector_to_queue(processes);
         // FCFS *fcfs = new FCFS(timer, process_vector_to_queue);
         RR *rr = new RR(timer2, process_vector_to_queue);
         // fcfs->Simulate();

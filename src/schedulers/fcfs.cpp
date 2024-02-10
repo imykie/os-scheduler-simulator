@@ -1,7 +1,6 @@
 #include "fcfs.h"
 
-FCFS::FCFS(Timestamp *timer, Queue<Process *> *processes)
-    : TimestampObserver(timer) {
+FCFS::FCFS(Timestamp *timer, Queue<Process *> *processes) : TimestampObserver(timer) {
     this->timer = timer;
     process_count = processes->Length();
     job_queue = processes->Copy();
@@ -29,17 +28,13 @@ void FCFS::Simulate() {
     std::vector<std::string> out;
     while (terminated_queue->Length() < process_count) {
         const int current_time = static_cast<int>(timer->GetCurrentTime());
-        out.push_back("[Time]: " + std::to_string(current_time) + " - " +
-                      std::to_string(current_time + 1));
+        out.push_back("[Time]: " + std::to_string(current_time) + " - " + std::to_string(current_time + 1));
 
         // handle job queue
-        if (!job_queue->IsEmpty() &&
-            job_queue->Peek()->GetArrivalTime() <= current_time) {
+        if (!job_queue->IsEmpty() && job_queue->Peek()->GetArrivalTime() <= current_time) {
             ready_queue->Enqueue(job_queue->Dequeue());
-            out.push_back(
-                "[Process ID]: " +
-                std::to_string(ready_queue->Rear()->GetProcessID()) +
-                ", Moved from Job Queue to Ready Queue [NEW -> READY]");
+            out.push_back("[Process ID]: " + std::to_string(ready_queue->Rear()->GetProcessID()) +
+                          ", Moved from Job Queue to Ready Queue [NEW -> READY]");
         }
 
         // handle ready queue
@@ -48,83 +43,62 @@ void FCFS::Simulate() {
             if (current_process->GetResponseTime() == -1) {
                 current_process->SetResponseTime(current_time);
             }
-            out.push_back("[Process ID]: " +
-                          std::to_string(current_process->GetProcessID()) +
+            out.push_back("[Process ID]: " + std::to_string(current_process->GetProcessID()) +
                           ", Moved from Ready Queue to Running State [READY -> "
                           "RUNNING]");
         }
 
         // handle waiting queue
         if (!waiting_queue->IsEmpty()) {
-            waiting_queue->Peek()->SetIOBurstTime(
-                waiting_queue->Peek()->GetIOBurstTime() - 1);
-            out.push_back(
-                "[Process ID]: " +
-                std::to_string(waiting_queue->Peek()->GetProcessID()) +
-                ", Waited for IO resources for 1 second, [Remaining "
-                "IOBurstTime]: " +
-                std::to_string(waiting_queue->Peek()->GetIOBurstTime()));
+            waiting_queue->Peek()->SetIOBurstTime(waiting_queue->Peek()->GetIOBurstTime() - 1);
+            out.push_back("[Process ID]: " + std::to_string(waiting_queue->Peek()->GetProcessID()) +
+                          ", Waited for IO resources for 1 second, [Remaining "
+                          "IOBurstTime]: " +
+                          std::to_string(waiting_queue->Peek()->GetIOBurstTime()));
 
             if (waiting_queue->Peek()->GetIOBurstTime() == 0) {
                 ready_queue->Enqueue(waiting_queue->Dequeue());
-                out.push_back(
-                    "[Process ID]: " +
-                    std::to_string(ready_queue->Rear()->GetProcessID()) +
-                    ", IO waiting time finished, Moved from Waiting "
-                    "Queue to Ready Queue [WAITING -> READY]");
+                out.push_back("[Process ID]: " + std::to_string(ready_queue->Rear()->GetProcessID()) +
+                              ", IO waiting time finished, Moved from Waiting "
+                              "Queue to Ready Queue [WAITING -> READY]");
             }
         }
 
         // handle current process
         if (current_process != nullptr) {
             if (current_process->GetCPUBurstTime1() == 0) {
-                if (current_process->GetIOBurstTime() == 0 &&
-                    current_process->GetCPUBurstTime2() != 0) {
-                    current_process->SetCPUBurstTime2(
-                        current_process->GetCPUBurstTime2() - 1);
-                    out.push_back(
-                        "[Process ID]: " +
-                        std::to_string(current_process->GetProcessID()) +
-                        ", Second CPUBurstTime was executed for 1 second, "
-                        "[Remaining CPUBurstTime 2]:" +
-                        std::to_string(current_process->GetCPUBurstTime2()));
+                if (current_process->GetIOBurstTime() == 0 && current_process->GetCPUBurstTime2() != 0) {
+                    current_process->SetCPUBurstTime2(current_process->GetCPUBurstTime2() - 1);
+                    out.push_back("[Process ID]: " + std::to_string(current_process->GetProcessID()) +
+                                  ", Second CPUBurstTime was executed for 1 second, "
+                                  "[Remaining CPUBurstTime 2]:" +
+                                  std::to_string(current_process->GetCPUBurstTime2()));
                     if (current_process->GetCPUBurstTime2() == 0) {
                         terminated_queue->Enqueue(current_process);
                         current_process->SetTerminationTime(current_time + 1);
-                        current_process->SetTurnAroundTime(
-                            current_process->GetTerminationTime() -
-                            current_process->GetArrivalTime());
-                        current_process->SetWaitTime(
-                            current_process->GetTurnAroundTime() -
-                            (current_process->GetCPUBurstTime1() +
-                             current_process->GetCPUBurstTime2() +
-                             current_process->GetIOBurstTime()));
+                        current_process->SetTurnAroundTime(current_process->GetTerminationTime() -
+                                                           current_process->GetArrivalTime());
+                        current_process->SetWaitTime(current_process->GetTurnAroundTime() -
+                                                     (current_process->GetCPUBurstTime1() +
+                                                      current_process->GetCPUBurstTime2() +
+                                                      current_process->GetIOBurstTime()));
                         current_process = nullptr;
-                        out.push_back(
-                            "[Process ID]: " +
-                            std::to_string(
-                                terminated_queue->Rear()->GetProcessID()) +
-                            ", was terminated [RUNNING - TERMINATED]");
+                        out.push_back("[Process ID]: " + std::to_string(terminated_queue->Rear()->GetProcessID()) +
+                                      ", was terminated [RUNNING - TERMINATED]");
                     }
                 }
             } else {
-                current_process->SetCPUBurstTime1(
-                    current_process->GetCPUBurstTime1() - 1);
-                out.push_back(
-                    "[Process ID]: " +
-                    std::to_string(current_process->GetProcessID()) +
-                    ", First CPUBurstTime was executed for 1 second, "
-                    "[Remaining CPUBurstTime 1]: " +
-                    std::to_string(current_process->GetCPUBurstTime1()));
-                if (current_process->GetCPUBurstTime1() == 0 &&
-                    current_process->GetIOBurstTime() != 0) {
+                current_process->SetCPUBurstTime1(current_process->GetCPUBurstTime1() - 1);
+                out.push_back("[Process ID]: " + std::to_string(current_process->GetProcessID()) +
+                              ", First CPUBurstTime was executed for 1 second, "
+                              "[Remaining CPUBurstTime 1]: " +
+                              std::to_string(current_process->GetCPUBurstTime1()));
+                if (current_process->GetCPUBurstTime1() == 0 && current_process->GetIOBurstTime() != 0) {
                     waiting_queue->Enqueue(current_process);
                     current_process = nullptr;
-                    out.push_back(
-                        "[Process ID]: " +
-                        std::to_string(waiting_queue->Rear()->GetProcessID()) +
-                        ", Moved from Running State to Waiting Queue to "
-                        "execute IO burst time [RUNNING -> WAITING]");
+                    out.push_back("[Process ID]: " + std::to_string(waiting_queue->Rear()->GetProcessID()) +
+                                  ", Moved from Running State to Waiting Queue to "
+                                  "execute IO burst time [RUNNING -> WAITING]");
                 }
             }
         }

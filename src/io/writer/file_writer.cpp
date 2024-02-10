@@ -6,8 +6,7 @@ bool FileWriter::FileExists(const std::string path) {
 }
 
 void FileWriter::CreateFile(const std::string path) {
-    if (FileWriter::FileExists(path))
-        throw std::invalid_argument(path + " already exist");
+    if (FileWriter::FileExists(path)) throw std::invalid_argument(path + " already exist");
 
     std::ofstream file(path);
     if (!file.is_open()) {
@@ -25,8 +24,7 @@ void FileWriter::AppendToFile(const std::string path, const std::string text) {
     file.close();
 }
 
-void FileWriter::WriteToFile(const std::string path,
-                             const std::vector<std::string> texts) {
+void FileWriter::WriteToFile(const std::string path, const std::vector<std::string> texts) {
     std::ofstream file(path, std::ios::out | std::ios::app);
     if (!file.is_open()) {
         throw std::invalid_argument("could not open/create file at: " + path);
