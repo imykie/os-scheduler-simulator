@@ -7,7 +7,7 @@ FCFS::FCFS(Timestamp *timer, Queue<Process *> *processes) : TimestampObserver(ti
     ready_queue = new Queue<Process *>;
     waiting_queue = new Queue<Process *>;
     terminated_queue = new Queue<Process *>;
-    current_process = nullptr;
+    this->SetCurrentProcess(nullptr);
 }
 
 // clean up pointers in destructor
@@ -21,11 +21,13 @@ FCFS::~FCFS() {
     delete terminated_queue;
     terminated_queue = nullptr;
     delete current_process;
-    current_process = nullptr;
+    this->SetCurrentProcess(nullptr);
 }
 
 void FCFS::Simulate() {
     std::vector<std::string> out;
+    out.push_back("***First Come First Serve (FCFS) Scheduling Algorithm***\n");
+
     while (terminated_queue->Length() < process_count) {
         const int current_time = static_cast<int>(timer->GetCurrentTime());
         out.push_back("[Time]: " + std::to_string(current_time) + " - " + std::to_string(current_time + 1));
@@ -39,7 +41,7 @@ void FCFS::Simulate() {
 
         // handle ready queue
         if (!ready_queue->IsEmpty() && current_process == nullptr) {
-            SetCurrentProcess(ready_queue->Dequeue());
+            this->SetCurrentProcess(ready_queue->Dequeue());
             if (current_process->GetResponseTime() == -1) {
                 current_process->SetResponseTime(current_time);
             }
@@ -53,7 +55,7 @@ void FCFS::Simulate() {
             waiting_queue->Peek()->SetIOBurstTime(waiting_queue->Peek()->GetIOBurstTime() - 1);
             out.push_back("[Process ID]: " + std::to_string(waiting_queue->Peek()->GetProcessID()) +
                           ", Waited for IO resources for 1 second, [Remaining "
-                          "IOBurstTime]: " +
+                          "IO Burst Time]: " +
                           std::to_string(waiting_queue->Peek()->GetIOBurstTime()));
 
             if (waiting_queue->Peek()->GetIOBurstTime() == 0) {
@@ -70,8 +72,8 @@ void FCFS::Simulate() {
                 if (current_process->GetIOBurstTime() == 0 && current_process->GetCPUBurstTime2() != 0) {
                     current_process->SetCPUBurstTime2(current_process->GetCPUBurstTime2() - 1);
                     out.push_back("[Process ID]: " + std::to_string(current_process->GetProcessID()) +
-                                  ", Second CPUBurstTime was executed for 1 second, "
-                                  "[Remaining CPUBurstTime 2]:" +
+                                  ", Second CPU Burst Time was executed for 1 second, "
+                                  "[Remaining Second CPU Burst Time]: " +
                                   std::to_string(current_process->GetCPUBurstTime2()));
                     if (current_process->GetCPUBurstTime2() == 0) {
                         terminated_queue->Enqueue(current_process);
@@ -82,7 +84,7 @@ void FCFS::Simulate() {
                                                      (current_process->GetCPUBurstTime1() +
                                                       current_process->GetCPUBurstTime2() +
                                                       current_process->GetIOBurstTime()));
-                        current_process = nullptr;
+                        this->SetCurrentProcess(nullptr);
                         out.push_back("[Process ID]: " + std::to_string(terminated_queue->Rear()->GetProcessID()) +
                                       ", was terminated [RUNNING - TERMINATED]");
                     }
@@ -90,12 +92,12 @@ void FCFS::Simulate() {
             } else {
                 current_process->SetCPUBurstTime1(current_process->GetCPUBurstTime1() - 1);
                 out.push_back("[Process ID]: " + std::to_string(current_process->GetProcessID()) +
-                              ", First CPUBurstTime was executed for 1 second, "
-                              "[Remaining CPUBurstTime 1]: " +
+                              ", First CPU Burst Time was executed for 1 second, "
+                              "[Remaining First CPU Burst Time]: " +
                               std::to_string(current_process->GetCPUBurstTime1()));
                 if (current_process->GetCPUBurstTime1() == 0 && current_process->GetIOBurstTime() != 0) {
                     waiting_queue->Enqueue(current_process);
-                    current_process = nullptr;
+                    this->SetCurrentProcess(nullptr);
                     out.push_back("[Process ID]: " + std::to_string(waiting_queue->Rear()->GetProcessID()) +
                                   ", Moved from Running State to Waiting Queue to "
                                   "execute IO burst time [RUNNING -> WAITING]");
@@ -106,9 +108,3 @@ void FCFS::Simulate() {
     }
     FileWriter::WriteToFile("FCFS.log", out);
 }
-
-bool FCFS::IsProcessing() { return terminated_queue->Length() < process_count; }
-
-Process *FCFS::GetCurrentProcess() { return current_process; };
-
-void FCFS::SetCurrentProcess(Process *process) { current_process = process; };

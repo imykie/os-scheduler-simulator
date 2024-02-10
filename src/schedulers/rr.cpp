@@ -8,7 +8,7 @@ RR::RR(Timestamp *timer, Queue<Process *> *processes, int time_quantum) : Timest
     ready_queue = new Queue<Process *>;
     waiting_queue = new Queue<Process *>;
     terminated_queue = new Queue<Process *>;
-    current_process = nullptr;
+    this->SetCurrentProcess(nullptr);
 }
 
 RR::~RR() {
@@ -21,14 +21,17 @@ RR::~RR() {
     delete terminated_queue;
     terminated_queue = nullptr;
     delete current_process;
-    current_process = nullptr;
+    this->SetCurrentProcess(nullptr);
 }
 
 void RR::Simulate() {
     std::vector<std::string> out;
+    out.push_back("***Round-Robin (RR) Scheduling Algorithm***\n");
+
     while (terminated_queue->Length() < process_count) {
         const int current_time = static_cast<int>(timer->GetCurrentTime());
         int execution_elapsed_time = 0;
+        out.push_back("[Time]: " + std::to_string(current_time) + " - " + std::to_string(current_time + 1));
 
         // handle job queue
         if (!job_queue->IsEmpty() && job_queue->Peek()->GetArrivalTime() <= current_time) {
@@ -39,7 +42,7 @@ void RR::Simulate() {
 
         // handle ready queue
         if (!ready_queue->IsEmpty() && current_process == nullptr) {
-            SetCurrentProcess(ready_queue->Dequeue());
+            this->SetCurrentProcess(ready_queue->Dequeue());
             execution_elapsed_time = 0;
             if (current_process->GetResponseTime() == -1) {
                 current_process->SetResponseTime(current_time);
@@ -84,12 +87,12 @@ void RR::Simulate() {
                                                      (current_process->GetCPUBurstTime1() +
                                                       current_process->GetCPUBurstTime2() +
                                                       current_process->GetIOBurstTime()));
-                        current_process = nullptr;
+                        this->SetCurrentProcess(nullptr);
                         out.push_back("[Process ID]: " + std::to_string(terminated_queue->Rear()->GetProcessID()) +
                                       ", was terminated [RUNNING - TERMINATED]");
                     } else if (execution_elapsed_time == time_quantum) {
                         ready_queue->Enqueue(current_process);
-                        current_process = nullptr;
+                        this->SetCurrentProcess(nullptr);
                         out.push_back("[Process ID]: " + std::to_string(ready_queue->Rear()->GetProcessID()) +
                                       ", Time Quantum was finished and moved "
                                       "from Running "
@@ -105,13 +108,13 @@ void RR::Simulate() {
                               std::to_string(current_process->GetCPUBurstTime1()));
                 if (current_process->GetCPUBurstTime1() == 0 && current_process->GetIOBurstTime() != 0) {
                     waiting_queue->Enqueue(current_process);
-                    current_process = nullptr;
+                    this->SetCurrentProcess(nullptr);
                     out.push_back("[Process ID]: " + std::to_string(waiting_queue->Rear()->GetProcessID()) +
                                   ", Moved from Running State to Waiting Queue to "
                                   "execute IO burst time [RUNNING -> WAITING]");
                 } else if (execution_elapsed_time == time_quantum) {
                     ready_queue->Enqueue(current_process);
-                    current_process = nullptr;
+                    this->SetCurrentProcess(nullptr);
                     out.push_back("[Process ID]: " + std::to_string(ready_queue->Rear()->GetProcessID()) +
                                   ", Time Quantum was finished and moved "
                                   "from Running State to Ready Queue [RUNNING - READY]");
@@ -122,9 +125,3 @@ void RR::Simulate() {
     }
     FileWriter::WriteToFile("RR.log", out);
 }
-
-bool RR::IsProcessing() { return terminated_queue->Length() < process_count; }
-
-Process *RR::GetCurrentProcess() { return current_process; };
-
-void RR::SetCurrentProcess(Process *process) { current_process = process; };

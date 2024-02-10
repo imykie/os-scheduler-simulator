@@ -25,14 +25,13 @@ Queue<Process *> *convert_process_vector_to_queue(vector<Process *> processes) {
 
 int main() {
     vector<Process *> processes = ProcessFileReader::ReadFile("test.csv");
-    // Timestamp *timer = new Timestamp("FCFS");
+    Timestamp *timer = new Timestamp("FCFS");
     Timestamp *timer2 = new Timestamp("RR");
 
     try {
-        Queue<Process *> *process_vector_to_queue = convert_process_vector_to_queue(processes);
-        // FCFS *fcfs = new FCFS(timer, process_vector_to_queue);
-        RR *rr = new RR(timer2, process_vector_to_queue);
-        // fcfs->Simulate();
+        FCFS *fcfs = new FCFS(timer, convert_process_vector_to_queue(processes));
+        RR *rr = new RR(timer2, convert_process_vector_to_queue(processes));
+        fcfs->Simulate();
         rr->Simulate();
     } catch (exception &e) {
         cout << e.what() << endl;

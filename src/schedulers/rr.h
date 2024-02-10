@@ -11,11 +11,8 @@ class RR : public Scheduler, TimestampObserver {
    public:
     RR(Timestamp *timer, Queue<Process *> *processes, int time_quantum = 1);
     ~RR();
-    void Simulate();
-    bool IsProcessing();
-    Process *GetCurrentProcess();
+    void Simulate() override;
 
    private:
-    void SetCurrentProcess(Process *process);
     int time_quantum;
 };

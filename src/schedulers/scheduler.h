@@ -12,8 +12,8 @@
 class Scheduler {
    public:
     virtual void Simulate() = 0;
-    virtual bool IsProcessing() = 0;
-    virtual Process *GetCurrentProcess() = 0;
+    virtual bool IsProcessing();
+    virtual Process *GetCurrentProcess();
 
    protected:
     Queue<Process *> *job_queue;
@@ -23,5 +23,5 @@ class Scheduler {
     Timestamp *timer;
     Process *current_process;
     int process_count;
-    virtual void SetCurrentProcess(Process *process) = 0;
+    virtual void SetCurrentProcess(Process *process);
 };

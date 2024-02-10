@@ -11,10 +11,5 @@ class FCFS : public Scheduler, TimestampObserver {
    public:
     FCFS(Timestamp *timer, Queue<Process *> *processes);
     ~FCFS();
-    void Simulate();
-    bool IsProcessing();
-    Process *GetCurrentProcess();
-
-   private:
-    void SetCurrentProcess(Process *process);
+    void Simulate() override;
 };
