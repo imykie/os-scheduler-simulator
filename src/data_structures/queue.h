@@ -1,4 +1,5 @@
 #pragma once
+
 #include "queue_node.h"
 
 template <typename T>
@@ -83,8 +84,7 @@ void Queue<T>::Enqueue(T value) {
     newNode->SetContent(value);
 
     if (IsEmpty()) {
-        head = newNode;
-        tail = newNode;
+        head = tail = newNode;
     } else {
         tail->SetNextNode(newNode);
         tail = tail->GetNextNode();

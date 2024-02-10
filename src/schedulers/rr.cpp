@@ -1,7 +1,8 @@
-#include "fcfs.h"
+#include "rr.h"
 
-FCFS::FCFS(Timestamp *timer, Queue<Process *> *processes)
+RR::RR(Timestamp *timer, Queue<Process *> *processes, int time_quantum)
     : TimestampObserver(timer) {
+    this->time_quantum = time_quantum;
     this->timer = timer;
     process_count = processes->Length();
     job_queue = processes->Copy();
@@ -11,8 +12,7 @@ FCFS::FCFS(Timestamp *timer, Queue<Process *> *processes)
     current_process = nullptr;
 }
 
-// clean up pointers in destructor
-FCFS::~FCFS() {
+RR::~RR() {
     delete job_queue;
     job_queue = nullptr;
     delete ready_queue;
@@ -25,12 +25,11 @@ FCFS::~FCFS() {
     current_process = nullptr;
 }
 
-void FCFS::Simulate() {
+void RR::Simulate() {
     std::vector<std::string> out;
     while (terminated_queue->Length() < process_count) {
         const int current_time = static_cast<int>(timer->GetCurrentTime());
-        out.push_back("[Time]: " + std::to_string(current_time) + " - " +
-                      std::to_string(current_time + 1));
+        int execution_elapsed_time = 0;
 
         // handle job queue
         if (!job_queue->IsEmpty() &&
@@ -45,6 +44,7 @@ void FCFS::Simulate() {
         // handle ready queue
         if (!ready_queue->IsEmpty() && current_process == nullptr) {
             SetCurrentProcess(ready_queue->Dequeue());
+            execution_elapsed_time = 0;
             if (current_process->GetResponseTime() == -1) {
                 current_process->SetResponseTime(current_time);
             }
@@ -62,7 +62,7 @@ void FCFS::Simulate() {
                 "[Process ID]: " +
                 std::to_string(waiting_queue->Peek()->GetProcessID()) +
                 ", Waited for IO resources for 1 second, [Remaining "
-                "IOBurstTime]: " +
+                "IO Burst Time]: " +
                 std::to_string(waiting_queue->Peek()->GetIOBurstTime()));
 
             if (waiting_queue->Peek()->GetIOBurstTime() == 0) {
@@ -82,11 +82,12 @@ void FCFS::Simulate() {
                     current_process->GetCPUBurstTime2() != 0) {
                     current_process->SetCPUBurstTime2(
                         current_process->GetCPUBurstTime2() - 1);
+                    execution_elapsed_time++;
                     out.push_back(
                         "[Process ID]: " +
                         std::to_string(current_process->GetProcessID()) +
-                        ", Second CPUBurstTime was executed for 1 second, "
-                        "[Remaining CPUBurstTime 2]:" +
+                        ", Second CPU Burst Time was executed for 1 second, "
+                        "[Remaining Second CPU Burst Time]: " +
                         std::to_string(current_process->GetCPUBurstTime2()));
                     if (current_process->GetCPUBurstTime2() == 0) {
                         terminated_queue->Enqueue(current_process);
@@ -105,16 +106,26 @@ void FCFS::Simulate() {
                             std::to_string(
                                 terminated_queue->Rear()->GetProcessID()) +
                             ", was terminated [RUNNING - TERMINATED]");
+                    } else if (execution_elapsed_time == time_quantum) {
+                        ready_queue->Enqueue(current_process);
+                        current_process = nullptr;
+                        out.push_back("[Process ID]: " +
+                                      std::to_string(
+                                          ready_queue->Rear()->GetProcessID()) +
+                                      ", Time Quantum was finished and moved "
+                                      "from Running "
+                                      "State to Ready Queue [RUNNING - READY]");
                     }
                 }
             } else {
                 current_process->SetCPUBurstTime1(
                     current_process->GetCPUBurstTime1() - 1);
+                execution_elapsed_time++;
                 out.push_back(
                     "[Process ID]: " +
                     std::to_string(current_process->GetProcessID()) +
-                    ", First CPUBurstTime was executed for 1 second, "
-                    "[Remaining CPUBurstTime 1]: " +
+                    ", First CPU Burst Time was executed for 1 second, "
+                    "[Remaining First CPU Burst Time]: " +
                     std::to_string(current_process->GetCPUBurstTime1()));
                 if (current_process->GetCPUBurstTime1() == 0 &&
                     current_process->GetIOBurstTime() != 0) {
@@ -125,16 +136,24 @@ void FCFS::Simulate() {
                         std::to_string(waiting_queue->Rear()->GetProcessID()) +
                         ", Moved from Running State to Waiting Queue to "
                         "execute IO burst time [RUNNING -> WAITING]");
+                } else if (execution_elapsed_time == time_quantum) {
+                    ready_queue->Enqueue(current_process);
+                    current_process = nullptr;
+                    out.push_back(
+                        "[Process ID]: " +
+                        std::to_string(ready_queue->Rear()->GetProcessID()) +
+                        ", Time Quantum was finished and moved "
+                        "from Running State to Ready Queue [RUNNING - READY]");
                 }
             }
         }
         timer->IncreaseTime(1);
     }
-    FileWriter::WriteToFile("FCFS.log", out);
+    FileWriter::WriteToFile("RR.log", out);
 }
 
-bool FCFS::IsProcessing() { return terminated_queue->Length() < process_count; }
+bool RR::IsProcessing() { return terminated_queue->Length() < process_count; }
 
-Process *FCFS::GetCurrentProcess() { return current_process; };
+Process *RR::GetCurrentProcess() { return current_process; };
 
-void FCFS::SetCurrentProcess(Process *process) { current_process = process; };
+void RR::SetCurrentProcess(Process *process) { current_process = process; };
