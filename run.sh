@@ -8,5 +8,17 @@ if [ -x "$filename" ]; then
 fi
 
 echo "compiling new executable"
-g++ -g -O -Wall -std=c++20 src/*.cpp src/data_structures/*.cpp src/io/*.cpp src/io/reader/*.cpp src/io/writer/*.cpp src/Timestamp/*.cpp src/schedulers/*.cpp -o $filename
-echo "finished compilation!"
+g++ -g -O -Wall -std=c++17 src/*.cpp src/data_structures/*.cpp src/io/*.cpp src/io/reader/*.cpp src/io/writer/*.cpp src/timestamp/*.cpp src/schedulers/*.cpp -o $filename
+
+if [[ $? -eq 0 ]]; then
+    echo "finished compilation!"
+    echo "runnig program"
+    ./program 
+    if [[ $? -eq 0 ]]; then
+        echo "Program executed successfully"
+    else
+        echo "Program execution failed"
+    fi 
+else
+    echo "compilation was unsuccessfull"
+fi

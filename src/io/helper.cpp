@@ -1,3 +1,4 @@
+#include <iterator>
 #include "helper.h"
 
 std::vector<std::string> Helper::Split(const std::string text, const std::string delim) {
