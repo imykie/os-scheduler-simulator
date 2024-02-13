@@ -5,6 +5,7 @@
 #include "io/reader/process_file_reader.h"
 #include "schedulers/fcfs.h"
 #include "schedulers/rr.h"
+#include "schedulers/sjf.h"
 #include "timestamp/timestamp.h"
 #include "timestamp/timestamp_observer.h"
 
@@ -27,12 +28,15 @@ int main() {
     vector<Process *> processes = ProcessFileReader::ReadFile("test.csv");
     Timestamp *timer = new Timestamp("FCFS");
     Timestamp *timer2 = new Timestamp("RR");
+    Timestamp *timer3 = new Timestamp("SJF");
 
     try {
         FCFS *fcfs = new FCFS(timer, convert_process_vector_to_queue(processes));
         RR *rr = new RR(timer2, convert_process_vector_to_queue(processes));
+        SJF *sjf = new SJF(timer3, convert_process_vector_to_queue(processes));
         fcfs->Simulate();
         rr->Simulate();
+        sjf->Simulate();
     } catch (exception &e) {
         cout << e.what() << endl;
     }

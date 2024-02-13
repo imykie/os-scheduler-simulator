@@ -10,6 +10,7 @@ test.csv
 # generated log files
 FCFS.log
 RR.log
+SJF.log
 
 # compiler stuffs
 *.dSYM/

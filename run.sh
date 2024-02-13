@@ -12,7 +12,7 @@ g++ -g -O -Wall -std=c++17 src/*.cpp src/data_structures/*.cpp src/io/*.cpp src/
 
 if [[ $? -eq 0 ]]; then
     echo "finished compilation!"
-    echo "runnig program"
+    echo "running program"
     ./program 
     if [[ $? -eq 0 ]]; then
         echo "Program executed successfully"
