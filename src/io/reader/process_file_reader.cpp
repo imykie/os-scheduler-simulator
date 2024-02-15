@@ -1,6 +1,6 @@
 #include "process_file_reader.h"
 
-std::vector<Process *> ProcessFileReader::ReadFile(std::string path) {
+std::vector<Process *> ProcessFileReader::ReadFile(const std::string path) {
     std::ifstream file(path);
 
     if (!file.is_open()) {

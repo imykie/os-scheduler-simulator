@@ -24,8 +24,8 @@ Queue<Process *> *convert_process_vector_to_queue(vector<Process *> processes) {
     return queue;
 }
 
-int main() {
-    vector<Process *> processes = ProcessFileReader::ReadFile("test.csv");
+int main(int argc, char *argv[]) {
+    vector<Process *> processes = ProcessFileReader::ReadFile(argv[1]);
     Timestamp *timer = new Timestamp("FCFS");
     Timestamp *timer2 = new Timestamp("RR");
     Timestamp *timer3 = new Timestamp("SJF");

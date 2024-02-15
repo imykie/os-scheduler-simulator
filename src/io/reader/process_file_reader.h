@@ -19,5 +19,5 @@ namespace ProcessFileReader {
     const std::string COL5 = "io_time";
     const std::vector<std::string> TITLES{COL1, COL2, COL3, COL4, COL5};
 
-    std::vector<Process *> ReadFile(std::string path);
+    std::vector<Process *> ReadFile(const std::string path);
 }  // namespace ProcessFileReader
