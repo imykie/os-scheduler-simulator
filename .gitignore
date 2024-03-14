@@ -11,6 +11,7 @@ test.csv
 FCFS.log
 RR.log
 SJF.log
+MLFQ.log
 
 # compiler stuffs
 *.dSYM/

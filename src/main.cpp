@@ -4,6 +4,7 @@
 #include "data_structures/queue.h"
 #include "io/reader/process_file_reader.h"
 #include "schedulers/fcfs.h"
+#include "schedulers/mlfq.h"
 #include "schedulers/rr.h"
 #include "schedulers/sjf.h"
 #include "timestamp/timestamp.h"
@@ -29,14 +30,17 @@ int main(int argc, char *argv[]) {
     Timestamp *timer = new Timestamp("FCFS");
     Timestamp *timer2 = new Timestamp("RR");
     Timestamp *timer3 = new Timestamp("SJF");
+    Timestamp *timer4 = new Timestamp("MLFQ");
 
     try {
         FCFS *fcfs = new FCFS(timer, convert_process_vector_to_queue(processes));
         RR *rr = new RR(timer2, convert_process_vector_to_queue(processes));
         SJF *sjf = new SJF(timer3, convert_process_vector_to_queue(processes));
+        MLFQ *mlfq = new MLFQ(timer4, convert_process_vector_to_queue(processes));
         fcfs->Simulate();
         rr->Simulate();
         sjf->Simulate();
+        mlfq->Simulate();
     } catch (exception &e) {
         cout << e.what() << endl;
     }

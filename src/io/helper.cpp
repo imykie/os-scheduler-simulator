@@ -1,5 +1,6 @@
-#include <iterator>
 #include "helper.h"
+
+#include <iterator>
 
 std::vector<std::string> Helper::Split(const std::string text, const std::string delim) {
     std::vector<std::string> list;
@@ -23,3 +24,7 @@ std::string Helper::Join(const std::vector<std::string> texts, const char *delim
     std::copy(texts.begin(), texts.end(), std::ostream_iterator<std::string>(imploded, delim));
     return imploded.str();
 }
+
+std::ostream &Helper::BoldOn(std::ostream &os) { return os << "\e[1m"; }
+
+std::ostream &Helper::BoldOff(std::ostream &os) { return os << "\e[0m"; }
