@@ -38,7 +38,7 @@ void MLFQ::Simulate() {
     out.push_back("***Multi-Level Feedback Queue (MLFQ) Scheduling Algorithm***\n");
     int execution_elapsed_time = 0;
 
-    while (terminated_queue->Length() < process_count) {
+    while (IsProcessing()) {
         const int current_time = static_cast<int>(timer->GetCurrentTime());
         out.push_back("[Time]: " + std::to_string(current_time) + " - " + std::to_string(current_time + 1));
 
@@ -168,6 +168,7 @@ void MLFQ::Simulate() {
         }
         timer->IncreaseTime(1);
     }
+    FileWriter::ClearFile("MLFQ.log");
     FileWriter::WriteToFile("MLFQ.log", out);
     AnalyzeProcess("MLFQ");
 }

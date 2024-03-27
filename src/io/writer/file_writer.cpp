@@ -34,3 +34,15 @@ void FileWriter::WriteToFile(const std::string path, const std::vector<std::stri
     }
     file.close();
 }
+
+void FileWriter::ClearFile(const std::string path) {
+    std::ofstream file(path, std::ios::out | std::ios::trunc);
+    file.close();
+}
+
+void FileWriter::ClearFiles(const std::vector<std::string> paths) {
+    for (std::string path : paths) {
+        std::ofstream file(path, std::ios::out | std::ios::trunc);
+        file.close();
+    }
+}

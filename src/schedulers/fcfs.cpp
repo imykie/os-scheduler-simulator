@@ -28,7 +28,7 @@ void FCFS::Simulate() {
     std::vector<std::string> out;
     out.push_back("***First Come First Serve (FCFS) Scheduling Algorithm***\n");
 
-    while (terminated_queue->Length() < process_count) {
+    while (IsProcessing()) {
         const int current_time = static_cast<int>(timer->GetCurrentTime());
         out.push_back("[Time]: " + std::to_string(current_time) + " - " + std::to_string(current_time + 1));
 
@@ -106,6 +106,7 @@ void FCFS::Simulate() {
         }
         timer->IncreaseTime(1);
     }
+    FileWriter::ClearFile("FCFS.log");
     FileWriter::WriteToFile("FCFS.log", out);
     AnalyzeProcess("FCFS");
 }

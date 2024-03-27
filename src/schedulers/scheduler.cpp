@@ -12,6 +12,7 @@ void Scheduler::AnalyzeProcess(std::string filename) {
     const size_t N = terminated_queue->Length();
     std::stringstream ss;
 
+    ss << "***" << filename << " Algorithm Analysis***\n" << std::endl;
     ss << std::left << std::setw(14) << "Process ID" << std::setw(16) << "Arrival Time" << std::setw(20)
        << "Termination Time" << std::setw(17) << "Response Time" << std::setw(19) << "Turnaround Time" << std::setw(16)
        << "Waiting Time" << std::endl;
@@ -25,5 +26,6 @@ void Scheduler::AnalyzeProcess(std::string filename) {
     }
 
     filename = filename + "-ProcessAnalysis.log";
+    FileWriter::ClearFile(filename);
     FileWriter::AppendToFile(filename, ss.str());
 }

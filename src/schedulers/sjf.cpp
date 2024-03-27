@@ -28,7 +28,7 @@ void SJF::Simulate() {
     std::vector<std::string> out;
     out.push_back("***Shortest Job First (SJF) Scheduling Algorithm***\n");
 
-    while (terminated_queue->Length() < process_count) {
+    while (IsProcessing()) {
         const int current_time = static_cast<int>(timer->GetCurrentTime());
         out.push_back("[Time]: " + std::to_string(current_time) + " - " + std::to_string(current_time + 1));
 
@@ -107,6 +107,7 @@ void SJF::Simulate() {
         }
         timer->IncreaseTime(1);
     }
+    FileWriter::ClearFile("SJF.log");
     FileWriter::WriteToFile("SJF.log", out);
     AnalyzeProcess("SJF");
 }

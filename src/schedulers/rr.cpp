@@ -29,7 +29,7 @@ void RR::Simulate() {
     out.push_back("***Round-Robin (RR) Scheduling Algorithm***\n");
     int execution_elapsed_time = 0;
 
-    while (terminated_queue->Length() < process_count) {
+    while (IsProcessing()) {
         const int current_time = static_cast<int>(timer->GetCurrentTime());
         out.push_back("[Time]: " + std::to_string(current_time) + " - " + std::to_string(current_time + 1));
 
@@ -123,6 +123,7 @@ void RR::Simulate() {
         }
         timer->IncreaseTime(1);
     }
+    FileWriter::ClearFile("RR.log");
     FileWriter::WriteToFile("RR.log", out);
     AnalyzeProcess("RR");
 }
