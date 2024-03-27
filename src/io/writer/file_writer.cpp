@@ -20,7 +20,7 @@ void FileWriter::AppendToFile(const std::string path, const std::string text) {
     if (!file.is_open()) {
         throw std::invalid_argument("could not open/create file at: " + path);
     }
-    file << text << std::endl;
+    file << text;
     file.close();
 }
 
