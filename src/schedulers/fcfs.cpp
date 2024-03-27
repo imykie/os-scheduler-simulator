@@ -107,4 +107,5 @@ void FCFS::Simulate() {
         timer->IncreaseTime(1);
     }
     FileWriter::WriteToFile("FCFS.log", out);
+    AnalyzeProcess("FCFS");
 }

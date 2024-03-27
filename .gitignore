@@ -12,6 +12,7 @@ FCFS.log
 RR.log
 SJF.log
 MLFQ.log
+*ProcessAnalysis.log
 
 # compiler stuffs
 *.dSYM/

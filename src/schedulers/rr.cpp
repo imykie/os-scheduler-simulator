@@ -124,4 +124,5 @@ void RR::Simulate() {
         timer->IncreaseTime(1);
     }
     FileWriter::WriteToFile("RR.log", out);
+    AnalyzeProcess("RR");
 }

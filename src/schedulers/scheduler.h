@@ -24,4 +24,5 @@ class Scheduler {
     Process *current_process;
     int process_count;
     virtual void SetCurrentProcess(Process *process);
+    void AnalyzeProcess(std::string filename);
 };

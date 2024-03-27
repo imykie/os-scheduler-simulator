@@ -108,6 +108,7 @@ void SJF::Simulate() {
         timer->IncreaseTime(1);
     }
     FileWriter::WriteToFile("SJF.log", out);
+    AnalyzeProcess("SJF");
 }
 
 bool SJF::SortFunction(Process *p1, Process *p2) {

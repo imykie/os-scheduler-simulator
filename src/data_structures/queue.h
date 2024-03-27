@@ -9,7 +9,7 @@ class Queue {
     Queue<T> *Copy();
     ~Queue();
     bool IsEmpty();
-    int Length();
+    size_t Length();
     bool Contains(T value);
     void Enqueue(T value);
     T Dequeue();
@@ -20,7 +20,7 @@ class Queue {
    private:
     QueueNode<T> *head;
     QueueNode<T> *tail;
-    int size;
+    size_t size;
 };
 
 template <typename T>
@@ -57,7 +57,7 @@ bool Queue<T>::IsEmpty() {
 }
 
 template <typename T>
-int Queue<T>::Length() {
+size_t Queue<T>::Length() {
     return size;
 }
 

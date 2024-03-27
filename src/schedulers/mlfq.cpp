@@ -169,4 +169,5 @@ void MLFQ::Simulate() {
         timer->IncreaseTime(1);
     }
     FileWriter::WriteToFile("MLFQ.log", out);
+    AnalyzeProcess("MLFQ");
 }
