@@ -25,6 +25,7 @@ FCFS::~FCFS() {
 }
 
 void FCFS::Simulate() {
+    Queue<Process *> *job_queue_copy = this->DeepCopy(job_queue);
     std::vector<std::string> out;
     out.push_back("***First Come First Serve (FCFS) Scheduling Algorithm***\n");
 
@@ -109,4 +110,5 @@ void FCFS::Simulate() {
     FileWriter::ClearFile("FCFS.log");
     FileWriter::WriteToFile("FCFS.log", out);
     AnalyzeProcess("FCFS");
+    AnalyzeAlgorithm("FCFS", job_queue_copy);
 }

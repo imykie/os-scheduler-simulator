@@ -12,7 +12,7 @@
 
 using namespace std;
 
-Queue<Process *> *convert_process_vector_to_queue(vector<Process *> processes) {
+Queue<Process *> *ConvertProcessVectorToQueue(vector<Process *> processes) {
     Queue<Process *> *queue = new Queue<Process *>();
 
     for (size_t i = 0; i < processes.size(); ++i) {
@@ -33,10 +33,10 @@ int main(int argc, char *argv[]) {
     Timestamp *timer4 = new Timestamp("MLFQ");
 
     try {
-        FCFS *fcfs = new FCFS(timer, convert_process_vector_to_queue(processes));
-        RR *rr = new RR(timer2, convert_process_vector_to_queue(processes));
-        SJF *sjf = new SJF(timer3, convert_process_vector_to_queue(processes));
-        MLFQ *mlfq = new MLFQ(timer4, convert_process_vector_to_queue(processes));
+        FCFS *fcfs = new FCFS(timer, ConvertProcessVectorToQueue(processes));
+        RR *rr = new RR(timer2, ConvertProcessVectorToQueue(processes));
+        SJF *sjf = new SJF(timer3, ConvertProcessVectorToQueue(processes));
+        MLFQ *mlfq = new MLFQ(timer4, ConvertProcessVectorToQueue(processes));
         fcfs->Simulate();
         rr->Simulate();
         sjf->Simulate();

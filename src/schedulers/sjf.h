@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
-#include "../timestamp/timestamp_observer.h"
 #include "../data_structures/queue_utils.h"
+#include "../timestamp/timestamp_observer.h"
 #include "scheduler.h"
 
 class SJF : public Scheduler, TimestampObserver {

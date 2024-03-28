@@ -15,6 +15,7 @@ class Scheduler {
     virtual void Simulate() = 0;
     virtual bool IsProcessing();
     virtual Process *GetCurrentProcess();
+    Queue<Process *> *DeepCopy(Queue<Process *> *queue);
 
    protected:
     Queue<Process *> *job_queue;
@@ -26,4 +27,15 @@ class Scheduler {
     int process_count;
     virtual void SetCurrentProcess(Process *process);
     void AnalyzeProcess(std::string filename);
+    void AnalyzeAlgorithm(std::string filename, Queue<Process *> *job_queue_copy);
+
+   private:
+    int GetCPUExecutionTime(Queue<Process *> *job_queue_copy);
+    int GetFinishTime();
+    int GetCPUIdleTime(Queue<Process *> *job_queue_copy);
+    float GetCPUUtilizationPercentage(Queue<Process *> *job_queue_copy);
+    float GetThroughput();
+    float GetAverageTurnaroundTime();
+    float GetAverageWaitTime();
+    float GetAverageResponseTime();
 };

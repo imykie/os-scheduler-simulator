@@ -34,6 +34,7 @@ MLFQ::~MLFQ() {
 }
 
 void MLFQ::Simulate() {
+    Queue<Process *> *job_queue_copy = this->DeepCopy(job_queue);
     std::vector<std::string> out;
     out.push_back("***Multi-Level Feedback Queue (MLFQ) Scheduling Algorithm***\n");
     int execution_elapsed_time = 0;
@@ -171,4 +172,5 @@ void MLFQ::Simulate() {
     FileWriter::ClearFile("MLFQ.log");
     FileWriter::WriteToFile("MLFQ.log", out);
     AnalyzeProcess("MLFQ");
+    AnalyzeAlgorithm("MLFQ", job_queue_copy);
 }

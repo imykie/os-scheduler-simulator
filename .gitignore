@@ -13,6 +13,7 @@ RR.log
 SJF.log
 MLFQ.log
 *ProcessAnalysis.log
+*AlgorithmAnalysis.log
 
 # compiler stuffs
 *.dSYM/

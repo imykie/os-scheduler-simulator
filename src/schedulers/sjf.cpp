@@ -25,6 +25,7 @@ SJF::~SJF() {
 }
 
 void SJF::Simulate() {
+    Queue<Process *> *job_queue_copy = this->DeepCopy(job_queue);
     std::vector<std::string> out;
     out.push_back("***Shortest Job First (SJF) Scheduling Algorithm***\n");
 
@@ -110,6 +111,7 @@ void SJF::Simulate() {
     FileWriter::ClearFile("SJF.log");
     FileWriter::WriteToFile("SJF.log", out);
     AnalyzeProcess("SJF");
+    AnalyzeAlgorithm("SJF", job_queue_copy);
 }
 
 bool SJF::SortFunction(Process *p1, Process *p2) {

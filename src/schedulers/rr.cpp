@@ -25,6 +25,7 @@ RR::~RR() {
 }
 
 void RR::Simulate() {
+    Queue<Process *> *job_queue_copy = this->DeepCopy(job_queue);
     std::vector<std::string> out;
     out.push_back("***Round-Robin (RR) Scheduling Algorithm***\n");
     int execution_elapsed_time = 0;
@@ -126,4 +127,5 @@ void RR::Simulate() {
     FileWriter::ClearFile("RR.log");
     FileWriter::WriteToFile("RR.log", out);
     AnalyzeProcess("RR");
+    AnalyzeAlgorithm("RR", job_queue_copy);
 }
