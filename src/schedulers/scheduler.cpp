@@ -28,7 +28,7 @@ void Scheduler::AnalyzeProcess(std::string filename) {
     const size_t N = terminated_queue->Length();
     std::stringstream ss;
 
-    ss << "***" << filename << " Process Analysis***\n" << std::endl;
+    ss << "***" << filename << " Processes Analysis***\n" << std::endl;
     ss << std::left << std::setw(14) << "Process ID" << std::setw(16) << "Arrival Time" << std::setw(20)
        << "Termination Time" << std::setw(17) << "Response Time" << std::setw(19) << "Turnaround Time" << std::setw(16)
        << "Waiting Time" << std::endl;
@@ -41,7 +41,7 @@ void Scheduler::AnalyzeProcess(std::string filename) {
         terminated_queue->Enqueue(process);
     }
 
-    filename = filename + "-ProcessAnalysis.log";
+    filename = filename + "-Processes-Analysis.log";
     FileWriter::ClearFile(filename);
     FileWriter::AppendToFile(filename, ss.str());
 }
@@ -135,7 +135,7 @@ void Scheduler::AnalyzeAlgorithm(std::string filename, Queue<Process *> *job_que
     ss << std::setprecision(4) << "[Average Wait Time]: " << GetAverageWaitTime() << std::endl;
     ss << std::setprecision(4) << "[Average Response Time]: " << GetAverageResponseTime() << std::endl;
 
-    filename = filename + "-AlgorithmAnalysis.log";
+    filename = filename + "-Algorithm-Analysis.log";
     FileWriter::ClearFile(filename);
     FileWriter::AppendToFile(filename, ss.str());
 };

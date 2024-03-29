@@ -12,8 +12,8 @@ FCFS.log
 RR.log
 SJF.log
 MLFQ.log
-*ProcessAnalysis.log
-*AlgorithmAnalysis.log
+*-Processes-Analysis.log
+*-Algorithm-Analysis.log
 
 # compiler stuffs
 *.dSYM/
