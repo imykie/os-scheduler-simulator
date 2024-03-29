@@ -4,6 +4,9 @@
 ## Table of Contents
 - [Features](#features)
 - [Project Structure](#project-structure)
+- [Requirements](#requirements)
+- [Installation](#installation)
+
 
 ## Features
 - Implementation of the following scheduling algorithms:
@@ -64,3 +67,12 @@
 ├── README.md
 └── run.sh
 ```
+
+### Requirements
+* C++ compiler (C++17 e.g. GCC or CLANG)
+* Git CLI tool (or Git GUI client) to clone the repository.
+
+### Installation
+1. Clone this repository: `git clone https://github.com/imykie/os-scheduler-simulator`
+2. Navigate to the cloned repository's directory and Compile the source code using the following command: `./run.sh <your-test-file-path.csv>` (the program will also run after using this command)
+3. Run the compiled executable: `./program`
