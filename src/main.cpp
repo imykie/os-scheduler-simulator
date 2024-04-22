@@ -27,20 +27,20 @@ Queue<Process *> *ConvertProcessVectorToQueue(vector<Process *> processes) {
 
 int main(int argc, char *argv[]) {
     vector<Process *> processes = ProcessFileReader::ReadFile(argv[1]);
-    Timestamp *timer = new Timestamp("FCFS");
-    Timestamp *timer2 = new Timestamp("RR");
-    Timestamp *timer3 = new Timestamp("SJF");
-    Timestamp *timer4 = new Timestamp("MLFQ");
+    Timestamp timer("FCFS");
+    Timestamp timer2("RR");
+    Timestamp timer3("SJF");
+    Timestamp timer4("MLFQ");
 
     try {
-        FCFS *fcfs = new FCFS(timer, ConvertProcessVectorToQueue(processes));
-        RR *rr = new RR(timer2, ConvertProcessVectorToQueue(processes));
-        SJF *sjf = new SJF(timer3, ConvertProcessVectorToQueue(processes));
-        MLFQ *mlfq = new MLFQ(timer4, ConvertProcessVectorToQueue(processes));
-        fcfs->Simulate();
-        rr->Simulate();
-        sjf->Simulate();
-        mlfq->Simulate();
+        FCFS fcfs(&timer, ConvertProcessVectorToQueue(processes));
+        RR rr(&timer2, ConvertProcessVectorToQueue(processes));
+        SJF sjf(&timer3, ConvertProcessVectorToQueue(processes));
+        MLFQ mlfq(&timer4, ConvertProcessVectorToQueue(processes));
+        fcfs.Simulate();
+        rr.Simulate();
+        sjf.Simulate();
+        mlfq.Simulate();
     } catch (exception &e) {
         cout << e.what() << endl;
     }
